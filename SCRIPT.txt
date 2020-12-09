@@ -1,0 +1,70 @@
+CREATE DATABASE Veterinario;
+Use  veterinario;
+
+CREATE TABLE VETERINARIO(
+Idveterinario int(4) Primary key auto_increment,
+Nombre VARCHAR(45),
+Apellido VARCHAR(45),
+Telefono VARCHAR(45)
+);
+
+CREATE TABLE CITA (
+IdCita INT(4) PRIMARY KEY,
+FechaAtencion VARCHAR(45),
+ProximaCita VARCHAR(45)
+);
+
+CREATE TABLE HISTORIAL (
+IdHistorial int(4) primary key,
+Fecha date,
+MotivoAtencion VARCHAR(300) not null,
+Diagnostico VARCHAR(45),
+Presupuesto VARCHAR(50)not null
+);
+
+CREATE TABLE MASCOTA (
+IdMascota INT(2) Primary key,
+Nombre VARCHAR(50) not null,
+FechaNacimiento date,
+Peso VARCHAR(45) not null,
+Edad VARCHAR(45)not null,
+ColorPelo VARCHAR(50),
+Especie VARCHAR(45) not null,
+Raza VARCHAR(50),
+IdVeterinario INT(4),
+IdDNI INT(4),
+IdHistorial INT(4),
+IdCita INT(4),
+Prioridad INT(2)
+);
+
+CREATE TABLE DUEÑO (
+IdDNI INT(8) Primary key,
+Nombre VARCHAR(45),
+Apellidos VARCHAR(45),
+Domicilio VARCHAR(45),
+Telefono VARCHAR(45),
+Correo VARCHAR(45)
+);
+
+CREATE TABLE VACUNAS (
+IdVacunas INT(2) Primary key,
+Fecha date,
+TipoVacuna VARCHAR(45),
+Cantidad VARCHAR(45) not null,
+IdMascota INT(4) ,
+Estado VARCHAR(45)
+);
+
+CREATE TABLE ENFERMEDADES (
+IdEnfermedades INT(4) Primary key,
+Descripcion VARCHAR(400) ,
+Sintomas VARCHAR(500),
+IdHistorial INT(4)
+);
+
+ALTER TABLE Mascota ADD CONSTRAINT fk_mascota FOREIGN KEY (IdVeterinario) REFERENCES veterinario(IdVeterinario);
+ALTER TABLE Mascota ADD CONSTRAINT fk1_mascota FOREIGN KEY (IdDNI) REFERENCES dueño(IdDNI);
+ALTER TABLE veterinario.vacunas ADD CONSTRAINT fk_vacunas FOREIGN KEY (IdMascota) REFERENCES mascota(IdMascota);
+ALTER TABLE mascota  ADD CONSTRAINT fk2_mascota FOREIGN KEY (IdHistorial) REFERENCES historial(IdHistorial);
+ALTER TABLE enfermedades  ADD CONSTRAINT fk_enfermedades FOREIGN KEY (IdHistorial) REFERENCES mascota(IdHistorial);
